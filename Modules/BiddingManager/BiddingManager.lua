@@ -173,24 +173,6 @@ function BiddingManager:HandleIncomingMessage(message, distribution, sender)
     end
 end
 
-
-local PlayStartSound, PlayEndSound
-PlayStartSound = function()
-    if CLM.PAW then
-        PlaySoundFile("Interface\\AddOns\\ClassicLootManager\\Media\\Audio\\lifestock_auction.ogg", "MASTER")
-    else
-        PlaySound(12889)
-    end
-end
-PlayEndSound = function()
-    if CLM.PAW then
-        PlaySoundFile("Interface\\AddOns\\ClassicLootManager\\Media\\Audio\\lifestock_auction_sold.ogg", "MASTER")
-    else
-        PlaySound(12867)
-    end
-end
-
-
 function BiddingManager:HandleStartAuction(data, sender)
     LOG:Trace("BiddingManager:HandleStartAuction()")
     if self.auctionInProgress then
@@ -200,7 +182,7 @@ function BiddingManager:HandleStartAuction(data, sender)
     self.auctionInfo = data
     self.auctioneer = sender
     self.auctionInProgress = true
-    PlayStartSound()
+    PlaySound(12889)
     GUI.BiddingManager:StartAuction(self:GetAutoOpen(), self.auctionInfo)
     LOG:Message(CLM.L["Auction of "] .. self.auctionInfo:ItemLink())
 end
@@ -213,7 +195,7 @@ function BiddingManager:HandleStopAuction(data, sender)
     end
     self.auctionInProgress = false
     self:ClearAuctionInfo()
-    PlayEndSound()
+    PlaySound(12867)
     GUI.BiddingManager:EndAuction()
     LOG:Message(CLM.L["Auction finished"])
 end
